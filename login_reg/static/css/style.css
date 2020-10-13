@@ -1,0 +1,12 @@
+form{
+    display: inline-block;
+    width: 48%;
+    vertical-align: top;
+}
+form input{
+    display:block;
+}
+#container{
+    width:970px;
+
+}
