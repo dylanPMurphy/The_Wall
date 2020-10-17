@@ -12,15 +12,35 @@
 
     <form action="wall/messages/new" method="post">
         {%csrf_token%}
-        <h6>Post a messge</h6>
-        <textarea name="message_content" id="mc" cols="30" rows="10">type your message here...</textarea>
+        <h3>Post a messge</h3>
+        <textarea name="message_content" id="mc" cols="150" rows="6">type your message here...</textarea>
         <input type="submit" value="POST Message">
     </form>
 
     {% for message in messages_list%}
     <div>
-        <h6>{{message.user_who_posted.name}} - {{message.created_at}}</h6>
+        <h4>{{message.user_who_posted.name}} - {{message.created_at}}</h4>
         <p>{{message.content}}</p>
+        
+        <ul>
+            {%if message.comments in message%}
+                {%for comment in message.comments%}
+                <li>
+                    <p>{{comment.user_who_commented}}</p>
+                    <p>{{comment.content}}</p>
+                </li>
+                {%endfor%}
+            {%endif%}
+            <li>
+                <form action="/comments/new" method="POST">
+                    <p>Post a comment</p>
+                    <textarea name="comment_content" cols="130" rows="3"></textarea> 
+                    <input type="submit" value="POST">
+                </form>
+            </li>
+        </ul>
+
+
     </div>
     {%endfor%}
 </body>
