@@ -5,13 +5,14 @@ from login_reg.models import *
 
 class Message(models.Model):
     title = models.CharField(max_length=50)
-    message = models.TextField()
+    content = models.TextField()
+    user_who_posted = models.ForeignKey(User, related_name="messages", on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 class Comment(models.Model):
-    message = models.ForeignKey(Message, related_name="comments", on_delete = models.CASCADE)
-    user = models.ForeignKey(User, related_name="comments", on_delete = models.CASCADE)
-    comment = models.TextField()
+    message_parent = models.ForeignKey(Message, related_name="comments", on_delete = models.CASCADE)
+    user_who_commented = models.ForeignKey(User, related_name="comments", on_delete = models.CASCADE)
+    content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

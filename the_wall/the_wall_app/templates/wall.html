@@ -6,7 +6,22 @@
     <title>The Wall</title>
 </head>
 <body>
+    <h1>DOJO Wall</h1>
     <h2>Welcome {{authenticated_user.name}}</h2>
     <a href="/logout">LOGOUT</a>
+
+    <form action="wall/messages/new" method="post">
+        {%csrf_token%}
+        <h6>Post a messge</h6>
+        <textarea name="message_content" id="mc" cols="30" rows="10">type your message here...</textarea>
+        <input type="submit" value="POST Message">
+    </form>
+
+    {% for message in messages_list%}
+    <div>
+        <h6>{{message.user_who_posted.name}} - {{message.created_at}}</h6>
+        <p>{{message.content}}</p>
+    </div>
+    {%endfor%}
 </body>
 </html>
