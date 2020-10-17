@@ -32,9 +32,11 @@
                 {%endfor%}
             {%endif%}
             <li>
-                <form action="/comments/new" method="POST">
+                <form action="/wall/comments/new" method="POST">
+                    {%csrf_token%}
                     <p>Post a comment</p>
                     <textarea name="comment_content" cols="130" rows="3"></textarea> 
+                    <input type="hidden" name="parent_id" value={{message.id}}>
                     <input type="submit" value="POST">
                 </form>
             </li>

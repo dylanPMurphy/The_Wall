@@ -19,3 +19,10 @@ def addNewMessage(request):
     mess = request.POST['message_content']
     Message.objects.create(user_who_posted=logged_in_user, content=mess)
     return redirect('/wall')
+
+def addNewComment(request):
+    logged_in_user = User.objects.get(id=request.session['userid'])
+    comm = request.POST['comment_content']
+    parent = Message.objects.get(id=request.POST['parent_id'])
+    return redirect('/wall')
+    
