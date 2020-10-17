@@ -6,7 +6,8 @@ def index(request):
         if 'userid' in request.session:
             context ={
                 'authenticated_user': User.objects.get(id=request.session['userid']),
-                'messages_list': Message.objects.all()
+                'messages_list': Message.objects.order_by('-created_at'),
+                #'comments':Comment.objects.all()
             }
             print(request.session)
             print(request.session['userid'])
@@ -24,5 +25,6 @@ def addNewComment(request):
     logged_in_user = User.objects.get(id=request.session['userid'])
     comm = request.POST['comment_content']
     parent = Message.objects.get(id=request.POST['parent_id'])
+    Comment.objects.create(message_parent=parent, user_who_commented=logged_in_user, content=comm)
     return redirect('/wall')
     

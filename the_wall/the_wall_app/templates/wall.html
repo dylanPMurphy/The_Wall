@@ -10,29 +10,32 @@
     <h2>Welcome {{authenticated_user.name}}</h2>
     <a href="/logout">LOGOUT</a>
 
-    <form action="wall/messages/new" method="post">
+    <form action="messages/new" method="post">
         {%csrf_token%}
         <h3>Post a messge</h3>
         <textarea name="message_content" id="mc" cols="150" rows="6">type your message here...</textarea>
         <input type="submit" value="POST Message">
     </form>
-
+    
     {% for message in messages_list%}
     <div>
         <h4>{{message.user_who_posted.name}} - {{message.created_at}}</h4>
         <p>{{message.content}}</p>
-        
+        {{message.comments.all}}
         <ul>
-            {%if message.comments in message%}
-                {%for comment in message.comments%}
-                <li>
-                    <p>{{comment.user_who_commented}}</p>
-                    <p>{{comment.content}}</p>
-                </li>
+            <!-- {%if message.comments in message%} -->
+                
+                {%for comment in message.comments.all%}
+                    <!-- {%if comment.message_parent.id == message.id%} -->
+                        <li>
+                            <p>{{comment.user_who_commented}}</p>
+                            <p>{{comment.content}}</p>
+                        </li>
+                    <!-- {%endif%} -->
                 {%endfor%}
-            {%endif%}
+            <!-- {%endif%} -->
             <li>
-                <form action="/wall/comments/new" method="POST">
+                <form action="comments/new" method="POST">
                     {%csrf_token%}
                     <p>Post a comment</p>
                     <textarea name="comment_content" cols="130" rows="3"></textarea> 
@@ -44,6 +47,7 @@
 
 
     </div>
-    {%endfor%}
+{%endfor%}
+
 </body>
 </html>
