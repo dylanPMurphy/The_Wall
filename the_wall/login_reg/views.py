@@ -5,8 +5,10 @@ from django.contrib import messages
 # Create your views here.
 
 def index(request):
-
-    return render(request, 'index.html')
+    if request.session['userid']:
+        return redirect('/wall')
+    else:
+        return render(request, 'index.html')
 
 def register(request):
     if request.method =="POST":
