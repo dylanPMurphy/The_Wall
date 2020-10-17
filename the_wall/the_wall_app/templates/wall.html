@@ -23,17 +23,16 @@
         <p>{{message.content}}</p>
         {{message.comments.all}}
         <ul>
-            <!-- {%if message.comments in message%} -->
-                
+            
                 {%for comment in message.comments.all%}
-                    <!-- {%if comment.message_parent.id == message.id%} -->
+                    
                         <li>
-                            <p>{{comment.user_who_commented}}</p>
+                            <p>{{comment.user_who_commented.name}} - {{comment.created_at}}</p>
                             <p>{{comment.content}}</p>
                         </li>
-                    <!-- {%endif%} -->
+                    
                 {%endfor%}
-            <!-- {%endif%} -->
+            
             <li>
                 <form action="comments/new" method="POST">
                     {%csrf_token%}
