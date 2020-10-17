@@ -22,10 +22,12 @@ def register(request):
             password = request.POST['password']
             pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()  # create the hash    
             print(pw_hash)      # prints something like b'$2b$12$sqjyok5RQccl9S6eFLhEPuaRaJCcH3Esl2RWLm/cimMIEnhnLb7iC'    
+            
             # be sure you set up your database so it can store password hashes this long (60 characters)
             # make sure you put the hashed password in the database, not the one from the form!
-            User.objects.create(name=request.POST['user_name'], password=pw_hash, email=request.POST['email'])
-            return redirect('/successRegister') 
+            newUser = User.objects.create(name=request.POST['user_name'], password=pw_hash, email=request.POST['email'])
+            request.session['userid'] = newUser.id
+            return redirect('/wall') 
             #Create an account
 
 def reg_success(request):
@@ -44,7 +46,7 @@ def login(request):
                 # if we get True after checking the password, we may put the user id in session
                 request.session['userid'] = logged_user.id
                 # never render on a post, always redirect!
-                return redirect('/success')
+                return redirect('/wall')
             else:
                 messages.error(request, "Username or password incorrect")
                 return redirect('/')
@@ -55,8 +57,6 @@ def login(request):
 def success(request):
 
     context = {
-
-    
         'session_user':User.objects.get(id=request.session['userid'])
     }
     return render(request, 'successful_LOGIN.html', context)
