@@ -8,8 +8,11 @@ class UserManager(models.Manager):
         errors = {}
         EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
-        if len(reqPost['user_name'])<5:
-            errors['user_name'] = "Name must be at least 5 characters"
+        if len(reqPost['first_name'])<2:
+            errors['first_name'] = "Name must be at least 2 characters"
+        if len(reqPost['last_name'])<2:
+            errors['last_name'] = "Name must be at least 2 characters"
+
         if len(reqPost['email'])<8:
             errors['email'] = "Email must be at least 8 characters"
         if len(reqPost['password'])<8:
@@ -21,7 +24,9 @@ class UserManager(models.Manager):
         return errors
 
 class User(models.Model):
-    name = models.CharField(max_length=40)
+    first_name = models.CharField(max_length=40)
+    last_name = models.CharField(max_length=40)
+
     email = models.CharField(max_length=50)
     password = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)

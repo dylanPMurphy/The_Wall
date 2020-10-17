@@ -19,7 +19,8 @@
         <form action="/register" method="POST">
             <h2>REGISTER</h2>
             {%csrf_token%}
-            Name:<input type="text" name="user_name" >
+            First Name:<input type="text" name="first_name" >
+            Last Name:<input type="text" name="last_name" >
             Email:<input type="email" name="email">
             Password:<input type="password" name="password">
             Confirm:<input type="password" name="confirm_password">
@@ -29,7 +30,7 @@
         <form action="/login" method="post">
             <h2>LOGIN</h2>
             {%csrf_token%}
-            Username: <input type="text" name="login_uname">
+            Email: <input type="text" name="login_uname">
             Password: <input type="password" name="login_pass">
             <input type="submit" value="Login">
         </form>

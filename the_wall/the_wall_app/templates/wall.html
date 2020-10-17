@@ -24,15 +24,20 @@
         {{message.comments.all}}
         <ul>
             
-                {%for comment in message.comments.all%}
-                    
-                        <li>
-                            <p>{{comment.user_who_commented.name}} - {{comment.created_at}}</p>
-                            <p>{{comment.content}}</p>
-                        </li>
-                    
-                {%endfor%}
+            {%for comment in message.comments.all%}
             
+                <li>
+                    <p>{{comment.user_who_commented.name}} - {{comment.created_at}}</p>
+                    <p>{{comment.content}}</p>
+                    <form action="/delete_comment" method="post"> 
+                        
+                        <input type="hidden" name='comment_id_to_delete'value={{comment.id}} >
+                        <input type="submit" value="DELETE">
+                    </form>
+                </li>
+            
+            {%endfor%}
+        
             <li>
                 <form action="comments/new" method="POST">
                     {%csrf_token%}

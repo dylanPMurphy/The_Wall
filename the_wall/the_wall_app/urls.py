@@ -3,6 +3,6 @@ from . import views
 urlpatterns = [
     path('', views.index),
     path('messages/new', views.addNewMessage),
-    path('comments/new', views.addNewComment)
-
+    path('comments/new', views.addNewComment),
+    path('delete_comment', views.deleteComment)
 ]

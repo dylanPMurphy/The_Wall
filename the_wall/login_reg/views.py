@@ -5,7 +5,7 @@ from django.contrib import messages
 # Create your views here.
 
 def index(request):
-    if request.session['userid']:
+    if 'userid' in request.session.keys() is not None:
         return redirect('/wall')
     else:
         return render(request, 'index.html')
@@ -27,7 +27,7 @@ def register(request):
             
             # be sure you set up your database so it can store password hashes this long (60 characters)
             # make sure you put the hashed password in the database, not the one from the form!
-            newUser = User.objects.create(name=request.POST['user_name'], password=pw_hash, email=request.POST['email'])
+            newUser = User.objects.create(first_name=request.POST['first_name'], last_name=request.POST['last_name'], password=pw_hash, email=request.POST['email'])
             request.session['userid'] = newUser.id
             return redirect('/wall') 
             #Create an account
@@ -38,7 +38,7 @@ def reg_success(request):
 
 def login(request):
     if request.method =="POST":
-        user = User.objects.filter(name=request.POST['login_uname']) # why are we using filter here instead of get?
+        user = User.objects.filter(email=request.POST['login_uname']) # why are we using filter here instead of get?
         if user and request.POST['login_pass']: # note that we take advantage of truthiness here: an empty list will return false
             logged_user = user[0] 
             # assuming we only have one user with this username, the user would be first in the list we get back
