@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>DOJO Wall</h1>
-    <h2>Welcome {{authenticated_user.name}}</h2>
+    <h2>Welcome {{authenticated_user.first_name}}</h2>
     <a href="/logout">LOGOUT</a>
 
     <form action="messages/new" method="post">
@@ -19,21 +19,23 @@
     
     {% for message in messages_list%}
     <div>
-        <h4>{{message.user_who_posted.name}} - {{message.created_at}}</h4>
+        <h4>{{message.user_who_posted.first_name}} {{message.user_who_posted.last_name}} - {{message.created_at}}</h4>
         <p>{{message.content}}</p>
-        {{message.comments.all}}
+
         <ul>
             
             {%for comment in message.comments.all%}
             
                 <li>
-                    <p>{{comment.user_who_commented.name}} - {{comment.created_at}}</p>
+                    <p>{{comment.user_who_commented.first_name}} {{comment.user_who_commented.last_name}} - {{comment.created_at}}</p>
                     <p>{{comment.content}}</p>
-                    <form action="/delete_comment" method="post"> 
-                        
+                    {%if authenticated_user.id == comment.user_who_commented.id%}
+                    <form action="delete_comment" method="post"> 
+                        {%csrf_token%}
                         <input type="hidden" name='comment_id_to_delete'value={{comment.id}} >
                         <input type="submit" value="DELETE">
                     </form>
+                    {%endif%}
                 </li>
             
             {%endfor%}
